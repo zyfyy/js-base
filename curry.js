@@ -45,3 +45,21 @@ multi(2, 3)(4);
   curryTest(1, 2)(4)(3); //返回10
   curryTest(1, 2)(3, 4); //返回10
 }
+
+
+
+function curry3(fn, args) {
+  // 取到fn的参数个数
+  var length = fn.length;
+  var args = args || [];
+  return function () {
+    newArgs = args.concat(Array.prototype.slice.call(arguments));
+    if (newArgs.length < length) {
+      return curry3(fn, newArgs);
+    } else {
+      return fn.apply(this, newArgs);
+    }
+  };
+}
+var multi3 = curry3(multiFn);
+console.log(multi3(1, 2)(5));
